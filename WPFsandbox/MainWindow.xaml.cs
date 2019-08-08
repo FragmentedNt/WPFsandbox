@@ -12,9 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-// 以下を追加
+
+// added
 using LiveCharts;
 using LiveCharts.Wpf;
+using System.Diagnostics;
 
 namespace WPFsandbox
 {
@@ -23,44 +25,110 @@ namespace WPFsandbox
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        List<DockPanel> dpList = new List<DockPanel>();
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
+
         private void B_draw_Click(object sender, RoutedEventArgs e)
         {
-            GraphData gd = new GraphData();
+            var gd = new GraphData();
+            var r = new Random();
 
-            var sc = new SeriesCollection
+            foreach(var dp in dpList)
             {
-                new LineSeries
+                if(dp.Children.Count > 0)
                 {
-                    Values = new ChartValues<double> { 3, 1, 4, 1 }
-                },
-                new ColumnSeries
-                {
-                    Values = new ChartValues<double> { 2, 7, 1, 8 }
+                    var sc = new SeriesCollection
+                    {
+                        new LineSeries
+                        {
+                            Values = new ChartValues<double> { r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10) }
+                        },
+                        new ColumnSeries
+                        {
+                            Values = new ChartValues<double> { r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10) }
+                        },
+                        new ColumnSeries
+                        {
+                            Values = new ChartValues<double> { r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10) }
+                        }
+                    };
+                    gd.SeriesCollection = sc;
+                    ((CartesianChart)dp.Children[0]).DataContext = gd;
                 }
-            };
-            gd.seriesCollection = sc;
-            //Live_1.DataContext = gd;
+            }
         }
 
         public class GraphData
         {
-            public SeriesCollection seriesCollection { get; set; }
+            public SeriesCollection SeriesCollection { get; set; }
+
+            public GraphData() { }
         }
 
         private void B_add_Click(object sender, RoutedEventArgs e)
         {
-            CartesianChart cc = new CartesianChart();
-            cc.HorizontalAlignment = HorizontalAlignment.Stretch;
-            cc.VerticalAlignment = VerticalAlignment.Stretch;
-            //cc.Width = 800;
-            cc.Height = 240;
-            //stack1.Children.Add(cc);
+            var cartesianCount = (int)(nudRowCount.Value * nudColumnCount.Value);
+            var colmunCount = (int)nudColumnCount.Value;
+            var rowCount = (int)nudRowCount.Value;
+
+            cartesinGrid.Children.Clear();
+            if (dpList.Count > cartesianCount)
+                dpList.RemoveRange(cartesianCount - 1, dpList.Count - cartesianCount);
+
+            var cgcd = cartesinGrid.ColumnDefinitions;
+            if (cgcd.Count > colmunCount)
+                cgcd.RemoveRange(colmunCount - 1, cgcd.Count - colmunCount);
+
+            var cgrd = cartesinGrid.RowDefinitions;
+            if (cgrd.Count > rowCount)
+                cgrd.RemoveRange(rowCount - 1, cgrd.Count - rowCount);
+
+            for (int i = 0; i < rowCount; i++)
+            {
+                for (int j = 0; j < colmunCount; j++)
+                {
+                    DockPanel dp;
+                    if(dpList.Count > i * colmunCount + j)
+                    {
+                        dp = dpList[i * colmunCount + j];
+                        Debug.WriteLine($"row{i} colmun{j} : dp reuse");
+                    }
+                    else
+                    {
+                        dp = new DockPanel();
+                        var cc = new CartesianChart();
+                        cc.SetBinding(CartesianChart.SeriesProperty, new Binding("SeriesCollection"));
+                        dp.Children.Add(cc);
+                        dpList.Add(dp);
+                        Debug.WriteLine($"row{i} colmun{j} : dp new");
+                    }
+
+                    if (cartesinGrid.Children.IndexOf(dp) == -1)
+                        cartesinGrid.Children.Add(dp);
+
+                    if (cartesinGrid.RowDefinitions.Count <= i)
+                    {
+                        var rd =  new RowDefinition();
+                        rd.Height = new GridLength(1.0, GridUnitType.Star);
+                        cartesinGrid.RowDefinitions.Add(rd);
+                    }
+                    if (cartesinGrid.ColumnDefinitions.Count <= j)
+                    {
+                        var cd = new ColumnDefinition();
+                        cd.Width = new GridLength(1.0, GridUnitType.Star);
+                        cartesinGrid.ColumnDefinitions.Add(cd);
+                    }
+                    Grid.SetRow(dp, i);
+                    Grid.SetColumn(dp, j);
+                }
+            }
+            Debug.WriteLine("");
         }
     }
-
 }

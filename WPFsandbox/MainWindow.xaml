@@ -4,22 +4,42 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:wfm="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:WPFsandbox"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Canvas Name="canvas1">
-        <DockPanel Margin="0,0,0,0" Width="792" Height="419">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.6*"/>
-                    <ColumnDefinition Width="0.4*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Name="stack1" Grid.Column="1">
-                    <Button Name="B_draw" Height="30" Content="Draw" Click="B_draw_Click"/>
-                    <Button Name="B_add" Height="30" Content="Add" Click="B_add_Click"/>
-                    <lvc:CartesianChart Name="Live_1" Series="{Binding seriesCollection}" Height="210"/>
-                </StackPanel>
-            </Grid>
+        Title="MainWindow" Height="800" Width="1200">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="B_draw" Grid.Column="0" Height="30" Content="Draw" Click="B_draw_Click"/>
+                    <Button Name="B_add" Grid.Column="1" Height="30" Content="Add" Click="B_add_Click"/>
+                </Grid>
+                <DockPanel DockPanel.Dock="Left" Height="25">
+                    <Label Content="Row" VerticalAlignment="Center"/>
+                    <WindowsFormsHost Width="40">
+                        <wfm:NumericUpDown x:Name="nudRowCount" x:FieldModifier="public" Value="3" Minimum="1" Maximum="6"/>
+                    </WindowsFormsHost>
+                    <Label Content="Column" VerticalAlignment="Center"/>
+                    <WindowsFormsHost Width="40">
+                        <wfm:NumericUpDown x:Name="nudColumnCount" x:FieldModifier="public" Value="3" Minimum="1" Maximum="6"/>
+                    </WindowsFormsHost>
+                    <Label Content=""/>
+                        
+                </DockPanel>
+            </StackPanel>
         </DockPanel>
-    </Canvas>
+        <Grid x:Name="cartesinGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+        </Grid>
+    </DockPanel>
 </Window>
