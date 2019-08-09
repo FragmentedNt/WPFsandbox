@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System.Diagnostics;
+using LiveCharts.Configurations; // Mappersのため
+using LiveCharts.Defaults; // ObservablePointのため
 
 namespace WPFsandbox
 {
@@ -43,19 +45,36 @@ namespace WPFsandbox
             {
                 if(dp.Children.Count > 0)
                 {
+                    var x_ar = new List<int> { r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10) };
+                    x_ar.Sort();
                     var sc = new SeriesCollection
                     {
                         new LineSeries
                         {
-                            Values = new ChartValues<double> { r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10) }
+                            Values = new ChartValues<ObservablePoint> {
+                                new ObservablePoint(x_ar[0], r.Next(-10, 10)),
+                                new ObservablePoint(x_ar[1], r.Next(-10, 10)),
+                                new ObservablePoint(x_ar[2], r.Next(-10, 10)),
+                                new ObservablePoint(x_ar[3], r.Next(-10, 10))
+                            }
                         },
                         new ColumnSeries
                         {
-                            Values = new ChartValues<double> { r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10) }
+                            Values = new ChartValues<ObservablePoint> {
+                                new ObservablePoint(x_ar[0], r.Next(-10, 10)),
+                                new ObservablePoint(x_ar[1], r.Next(-10, 10)),
+                                new ObservablePoint(x_ar[2], r.Next(-10, 10)),
+                                new ObservablePoint(x_ar[3], r.Next(-10, 10))
+                            }
                         },
                         new ColumnSeries
                         {
-                            Values = new ChartValues<double> { r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10), r.Next(-10, 10) }
+                            Values = new ChartValues<ObservablePoint> {
+                                new ObservablePoint(x_ar[0], r.Next(-10, 10)),
+                                new ObservablePoint(x_ar[1], r.Next(-10, 10)),
+                                new ObservablePoint(x_ar[2], r.Next(-10, 10)),
+                                new ObservablePoint(x_ar[3], r.Next(-10, 10))
+                            }
                         }
                     };
                     gd.SeriesCollection = sc;

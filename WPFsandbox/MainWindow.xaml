@@ -33,13 +33,6 @@
                 </DockPanel>
             </StackPanel>
         </DockPanel>
-        <Grid x:Name="cartesinGrid">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-        </Grid>
+        <Grid x:Name="cartesinGrid"/>
     </DockPanel>
 </Window>

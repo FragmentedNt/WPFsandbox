@@ -10,7 +10,7 @@
                 <!--Select colors set, options are material, metro, blue, white and black-->
 
                 <!--Material design colors-->
-                <ResourceDictionary Source="pack://application:,,,/LiveCharts.Wpf;component/Themes/Colors/material.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/LiveCharts.Wpf;component/Themes/Colors/material.xaml" />-->
                 <!--Metro colors-->
                 <!--<ResourceDictionary Source="pack://application:,,,/LiveCharts.Wpf;component/Themes/Colors/metro.xaml" />-->
                 <!--Blue gradient-->
@@ -18,7 +18,7 @@
                 <!--white gradient-->
                 <!--<ResourceDictionary Source="pack://application:,,,/LiveCharts.Wpf;component/Themes/Colors/white.xaml" />-->
                 <!--black gradient-->
-                <!--<ResourceDictionary Source="pack://application:,,,/LiveCharts.Wpf;component/Themes/Colors/black.xaml" />-->
+                <ResourceDictionary Source="pack://application:,,,/LiveCharts.Wpf;component/Themes/Colors/black.xaml" />
 
                 <!--Select size, options are small, medium and large-->
 
